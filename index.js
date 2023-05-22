@@ -1,4 +1,5 @@
 const fs = require('fs').promises
+const path = require('path')
 const Parser = require('rss-parser')
 const axios = require('axios')
 
@@ -9,7 +10,7 @@ if (!SLACK_WEBHOOK_URL) {
   throw Error('Missing required environment variable `SLACK_WEBHOOK_URL`')
 }
 // ISO-formatted string of the last time this script was run successfully
-const LAST_CHECKED_FILE = './lastChecked'
+const LAST_CHECKED_FILE = path.join(__dirname, 'lastChecked')
 const parser = new Parser()
 
 const isNewPost = (entry, lastChecked) =>
