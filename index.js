@@ -13,7 +13,7 @@ const LAST_CHECKED_FILE = './lastChecked'
 const parser = new Parser()
 
 const isNewPost = (entry, lastChecked) =>
-  new Date(entry.isoDate) > lastChecked
+  entry.isoDate && new Date(entry.isoDate) > lastChecked
 
 const isNYFlightDeal = (entry) => 
   entry.categories?.includes('New York City')
