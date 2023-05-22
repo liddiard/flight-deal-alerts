@@ -21,6 +21,7 @@ const isNYFlightDeal = (entry) =>
   entry.categories?.includes('New York City')
 
 const sendAlert = async (entry) => {
+  console.log(`[${new Date()}] Sending alert for: ${entry.link}`)
   await axios.post(SLACK_WEBHOOK_URL, {
     text: entry.link,
     unfurl_links: true
