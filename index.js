@@ -13,6 +13,19 @@ if (!SLACK_WEBHOOK_URL) {
 const LAST_CHECKED_FILE = path.join(__dirname, 'lastChecked')
 const parser = new Parser()
 
+// retrieve from disk when the script was last run
+const getLastChecked = async () => {
+  const dateString = (await fs.readFile(LAST_CHECKED_FILE, 'utf8')).trim()
+  const date = new Date(dateString)
+  // date parsing can fail silently in JS with "Invalid Date"
+  // https://stackoverflow.com/a/1353711
+  if (isNaN(date)) {
+    console.warn(`Invalid lastChecked date from string: "${dateString}", defaulting to lastChecked to now. This means no alerts will be sent. You can ignore this error if it's your first time running the script.`)
+    return new Date()
+  }
+  return date
+}
+
 const isNewPost = (entry, lastChecked) =>
   entry.isoDate && 
   new Date(entry.isoDate) > lastChecked
@@ -29,7 +42,7 @@ const sendAlert = async (entry) => {
 }
 
 (async () => {
-  const lastChecked = new Date(await fs.readFile(LAST_CHECKED_FILE, 'utf8'))
+  const lastChecked = await getLastChecked()
 
   // https://github.com/rbren/rss-parser#usage
   const feed = await parser.parseURL('https://www.theflightdeal.com/feed/')
