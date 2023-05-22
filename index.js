@@ -22,7 +22,8 @@ const isNYFlightDeal = (entry) =>
 
 const sendAlert = async (entry) => {
   await axios.post(SLACK_WEBHOOK_URL, {
-    text: entry.link
+    text: entry.link,
+    unfurl_links: true
   })
 }
 
