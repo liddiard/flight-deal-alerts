@@ -12,11 +12,11 @@ if (!SLACK_WEBHOOK_URL) {
 const LAST_CHECKED_FILE = './lastChecked'
 const parser = new Parser()
 
-const isNYFlightDeal = (entry) => 
-  entry.categories.includes('New York City')
-
 const isNewPost = (entry, lastChecked) =>
   new Date(entry.isoDate) > lastChecked
+
+const isNYFlightDeal = (entry) => 
+  entry.categories?.includes('New York City')
 
 const sendAlert = async (entry) => {
   await axios.post(SLACK_WEBHOOK_URL, {
@@ -29,7 +29,7 @@ const sendAlert = async (entry) => {
 
   // https://github.com/rbren/rss-parser#usage
   const feed = await parser.parseURL('https://www.theflightdeal.com/feed/')
-  const alerts = feed.items.filter(i => isNYFlightDeal(i) && isNewPost(i, lastChecked))
+  const alerts = feed.items.filter(i => isNewPost(i, lastChecked) && isNYFlightDeal(i))
 
   for (const entry of alerts) {
     await sendAlert(entry)
