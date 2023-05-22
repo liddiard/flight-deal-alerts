@@ -13,7 +13,8 @@ const LAST_CHECKED_FILE = './lastChecked'
 const parser = new Parser()
 
 const isNewPost = (entry, lastChecked) =>
-  entry.isoDate && new Date(entry.isoDate) > lastChecked
+  entry.isoDate && 
+  new Date(entry.isoDate) > lastChecked
 
 const isNYFlightDeal = (entry) => 
   entry.categories?.includes('New York City')
@@ -29,7 +30,8 @@ const sendAlert = async (entry) => {
 
   // https://github.com/rbren/rss-parser#usage
   const feed = await parser.parseURL('https://www.theflightdeal.com/feed/')
-  const alerts = feed.items.filter(i => isNewPost(i, lastChecked) && isNYFlightDeal(i))
+  const alerts = feed.items.filter(i => 
+    isNewPost(i, lastChecked) && isNYFlightDeal(i))
 
   for (const entry of alerts) {
     await sendAlert(entry)
