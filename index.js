@@ -33,8 +33,8 @@ const sendAlert = async (entry) => {
 
   // https://github.com/rbren/rss-parser#usage
   const feed = await parser.parseURL('https://www.theflightdeal.com/feed/')
-  const alerts = feed.items.filter(i => 
-    isNewPost(i, lastChecked) && isNYFlightDeal(i))
+  const alerts = feed.items.filter(entry =>
+    isNewPost(entry, lastChecked) && isNYFlightDeal(entry))
 
   for (const entry of alerts) {
     await sendAlert(entry)
