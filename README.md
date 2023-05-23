@@ -12,4 +12,4 @@ Make automated posts like this to a Slack channel:
 
 You probably want to set up the script to run automatically using cron with a frequency of every hour or less. 
 
-The script is hardcoded to flight deals for New York City. You can change that by examining the RSS feed for supported cities and updating `FLIGHT_DEAL_CITY` constant in code.
+The script is hardcoded to flight deals for New York City. You can change that by examining the RSS feed for supported cities and updating the `FLIGHT_DEAL_CITY` constant in code.
