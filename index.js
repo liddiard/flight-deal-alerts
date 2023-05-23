@@ -16,14 +16,14 @@ const parser = new Parser()
 // retrieve from disk when the script was last run
 const getLastChecked = async () => {
   const dateString = (await fs.readFile(LAST_CHECKED_FILE, 'utf8')).trim()
-  const date = new Date(dateString)
+  const lastChecked = new Date(dateString)
   // date parsing can fail silently in JS with "Invalid Date"
   // https://stackoverflow.com/a/1353711
-  if (isNaN(date)) {
-    console.warn(`Invalid lastChecked date from string: "${dateString}", defaulting to lastChecked to now. This means no alerts will be sent. You can ignore this error if it's your first time running the script.`)
+  if (isNaN(lastChecked)) {
+    console.warn(`Invalid lastChecked date from string: "${dateString}", defaulting to lastChecked to now. This means no alerts will be sent. You can ignore this message if it's your first time running the script.`)
     return new Date()
   }
-  return date
+  return lastChecked
 }
 
 const isNewPost = (entry, lastChecked) =>
@@ -53,5 +53,6 @@ const sendAlert = async (entry) => {
     await sendAlert(entry)
   }
 
+  // save current time to disk as last successful run
   await fs.writeFile(LAST_CHECKED_FILE, new Date().toISOString(), 'utf8')
 })()
