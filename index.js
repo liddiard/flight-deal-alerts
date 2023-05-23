@@ -3,15 +3,20 @@ const path = require('path')
 const Parser = require('rss-parser')
 const axios = require('axios')
 
+const RSS_FEED_URL = 'https://www.theflightdeal.com/feed/'
+// City to check for flight deals. See the "categories" property on RSS
+// entries in the link above for supported cities.
+const FLIGHT_DEAL_CITY = 'New York City'
+// ISO-formatted string of the last time this script was run successfully
+const LAST_CHECKED_FILE = path.join(__dirname, 'lastChecked')
+const parser = new Parser()
+
 // anyone with this URL can post to Slack, so keep it out of version control
 // retrieved from: https://api.slack.com/apps/A058YGX5HK5/incoming-webhooks
 const { SLACK_WEBHOOK_URL } = process.env
 if (!SLACK_WEBHOOK_URL) {
   throw Error('Missing required environment variable `SLACK_WEBHOOK_URL`')
 }
-// ISO-formatted string of the last time this script was run successfully
-const LAST_CHECKED_FILE = path.join(__dirname, 'lastChecked')
-const parser = new Parser()
 
 // retrieve from disk when the script was last run
 const getLastChecked = async () => {
@@ -30,8 +35,8 @@ const isNewPost = (entry, lastChecked) =>
   entry.isoDate && 
   new Date(entry.isoDate) > lastChecked
 
-const isNYFlightDeal = (entry) => 
-  entry.categories?.includes('New York City')
+const isDesiredCity = (entry) => 
+  entry.categories?.includes(FLIGHT_DEAL_CITY)
 
 const sendAlert = async (entry) => {
   console.log(`[${new Date()}] Sending alert for: ${entry.link}`)
@@ -45,9 +50,9 @@ const sendAlert = async (entry) => {
   const lastChecked = await getLastChecked()
 
   // https://github.com/rbren/rss-parser#usage
-  const feed = await parser.parseURL('https://www.theflightdeal.com/feed/')
+  const feed = await parser.parseURL(RSS_FEED_URL)
   const alerts = feed.items.filter(entry =>
-    isNewPost(entry, lastChecked) && isNYFlightDeal(entry))
+    isNewPost(entry, lastChecked) && isDesiredCity(entry))
 
   for (const entry of alerts) {
     await sendAlert(entry)
