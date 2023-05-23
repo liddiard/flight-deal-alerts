@@ -2,7 +2,7 @@
 
 Make automated posts like this to a Slack channel:
 
-<img width="650" alt="Screenshot 2023-05-23 at 13 01 27" src="https://github.com/liddiard/flight-deal-alerts/assets/3317632/532b6e63-46ed-4b3e-8db9-326ca4eac177">
+<img width="650" alt="Screenshot 2023-05-23 at 13 01 27" src="https://github.com/liddiard/flight-deal-alerts/assets/3317632/715fc482-72b9-4182-9024-22999ef64791">
 
 ## Setup and usage
 
