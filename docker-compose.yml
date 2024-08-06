@@ -1,0 +1,6 @@
+services:
+  flight-deal-alerts:
+    build: .
+    container_name: flight-deal-alerts
+    volumes:
+      - ./lastChecked:/app/lastChecked

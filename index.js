@@ -4,18 +4,24 @@ const Parser = require('rss-parser')
 const axios = require('axios')
 
 const RSS_FEED_URL = 'https://www.theflightdeal.com/feed/'
-// City to check for flight deals. See the "categories" property on RSS
-// entries in the link above for supported cities.
-const FLIGHT_DEAL_CITY = 'New York City'
+
 // ISO-formatted string of the last time this script was run successfully
 const LAST_CHECKED_FILE = path.join(__dirname, 'lastChecked')
 const parser = new Parser()
 
-// anyone with this URL can post to Slack, so keep it out of version control
+// SLACK_WEBHOOK_URL: anyone with this URL can post to Slack, so keep it out
+// of version control
 // retrieved from: https://api.slack.com/apps/A058YGX5HK5/incoming-webhooks
-const { SLACK_WEBHOOK_URL } = process.env
+// 
+// FLIGHT_DEAL_CITY: // City to check for flight deals. See the "categories"
+// property on RSS entries in the link above for supported cities.
+const { SLACK_WEBHOOK_URL, FLIGHT_DEAL_CITY } = process.env
 if (!SLACK_WEBHOOK_URL) {
   throw Error('Missing required environment variable `SLACK_WEBHOOK_URL`')
+}
+
+if (!FLIGHT_DEAL_CITY) {
+  throw Error('Missing required environment variable `FLIGHT_DEAL_CITY`')
 }
 
 // retrieve from disk when the script was last run
