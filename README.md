@@ -11,6 +11,7 @@ Make automated posts like this to a Slack channel:
 From the top level of the repo, run:
 
 ```bash
+touch lastChecked
 cp .env.example .env
 ```
 
