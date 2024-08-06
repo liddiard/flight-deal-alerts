@@ -4,7 +4,6 @@
   "description": "Post alerts from The Flight Deal to a Slack channel.",
   "main": "index.js",
   "scripts": {
-    "preinstall": "touch lastChecked",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
