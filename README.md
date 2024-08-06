@@ -18,8 +18,7 @@ cp .env.example .env
 In the .env file, fill in the `SLACK_WEBHOOK_URL` environment variable ([get one here](https://api.slack.com/messaging/webhooks)). If desired, you may also change the city following [instructions below](#change-city). Then, run:
 
 ```bash
-docker build -t flight-deal-alerts .
-docker run -d --name flight-deal-alerts flight-deal-alerts
+docker compose up -d
 ```
 
 That's it!
