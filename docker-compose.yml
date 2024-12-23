@@ -4,3 +4,4 @@ services:
     container_name: flight-deal-alerts
     volumes:
       - ./lastChecked:/app/lastChecked
+    restart: unless-stopped
